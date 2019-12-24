@@ -2,7 +2,9 @@ const path = require('path')
 
 const config = {
   alias: {
-    '@': path.resolve(__dirname, '..', 'src'),
+    '@/components': path.resolve(__dirname, '..', 'src/components'),
+    '@/utils': path.resolve(__dirname, '..', 'src/utils'),
+    '@/assets': path.resolve(__dirname, '..', 'src/assets')
   },
   projectName: 'wx-taro',
   date: '2019-12-23',
@@ -24,7 +26,13 @@ const config = {
     plugins: [
       'transform-decorators-legacy',
       'transform-class-properties',
-      'transform-object-rest-spread'
+      'transform-object-rest-spread',
+      ['transform-runtime', {
+        "helpers": false,
+        "polyfill": false,
+        "regenerator": true,
+        "moduleName": 'babel-runtime'
+      }]
     ]
   },
   plugins: [],
