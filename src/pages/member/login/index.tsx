@@ -30,6 +30,12 @@ class Login extends Component<LoginProps, keyValueData> {
     }
   }
 
+  componentWillMount () {
+    if (Taro.getStorageSync('token') && Taro.getStorageSync('userId')) {
+      Taro.reLaunch({ url:'/pages/home/index'})
+    }
+  }
+
   goRegister = () => {
     Taro.navigateTo({
       url: '/pages/member/register/index'
@@ -66,8 +72,17 @@ class Login extends Component<LoginProps, keyValueData> {
       payload: {
         params: params,
         success: () => {
+          Taro.navigateTo({
+            url: '/pages/home/index'
+          })
         },
         fail:(res: any) => {
+          Taro.showModal({
+            title: '提示',
+            content: res.errorDescription || '登录失败，请重试',
+            showCancel: false,
+            confirmText: '知道了'
+          })
         }
       }
     })

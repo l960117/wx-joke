@@ -32,12 +32,21 @@ class App extends Component {
   config: Config = {
     pages: [
       'pages/member/login/index',
-      'pages/member/register/index'
+      'pages/member/register/index',
+      'pages/home/index',
+      'pages/joke/index',
+      'pages/test/main/index',
+      'pages/test/question/index',
+      'pages/test/result/index',
+      'pages/usercenter/center/index',
+      'pages/usercenter/history/index',
+      'pages/usercenter/userInfo/index',
+      'pages/usercenter/resetPassword/index'
     ],
     window: {
       backgroundTextStyle: 'light',
       navigationBarBackgroundColor: '#fff',
-      navigationBarTitleText: 'WeChat',
+      navigationBarTitleText: 'joke',
       navigationBarTextStyle: 'black'
     }
   }

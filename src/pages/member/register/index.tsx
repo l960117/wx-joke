@@ -1,11 +1,11 @@
-import Taro, { Component } from '@tarojs/taro';
+import Taro, { Component, Config } from '@tarojs/taro';
 import { View, Text, Button, Input, Image } from '@tarojs/components'
 import './index.less'
-import registerUser from './service'
+import { registerUser,getCaptcha } from './service'
 
 class Register extends Component {
 
-  config= {
+  config: Config = {
     backgroundTextStyle: 'light',
     navigationBarBackgroundColor: '#FFFFFF',
     navigationBarTitleText: '注册',
@@ -24,6 +24,42 @@ class Register extends Component {
 
   register = () => {
     const { username, password, confirmPassword, captcha } = this.state
+    if (!username) {
+      Taro.showModal({
+        title: '提示',
+        content: '请输入用户名',
+        showCancel: false,
+        confirmText: '知道了'
+      })
+      return
+    }
+    if (!password) {
+      Taro.showModal({
+        title: '提示',
+        content: '请输入密码',
+        showCancel: false,
+        confirmText: '知道了'
+      })
+      return
+    }
+    if (!confirmPassword) {
+      Taro.showModal({
+        title: '提示',
+        content: '请输入确认密码',
+        showCancel: false,
+        confirmText: '知道了'
+      })
+      return
+    }
+    if (!captcha) {
+      Taro.showModal({
+        title: '提示',
+        content: '请输入验证码',
+        showCancel: false,
+        confirmText: '知道了'
+      })
+      return
+    }
     let params = {
       username,
       password,
@@ -31,10 +67,31 @@ class Register extends Component {
       captcha
     }
     registerUser(params).then((res) => {
-
+      if (res.resultCode === 200) {
+        Taro.showModal({
+          title: '提示',
+          content: '请输入验证码',
+          showCancel: false,
+          confirmText: '知道了'
+        }).then(res => {
+          Taro.navigateBack()
+        })
+      } else {
+        Taro.showModal({
+          title: '提示',
+          content: res.errorDescription,
+          showCancel: false,
+          confirmText: '重试'
+        })
+      }
     })
     .catch((res) => {
-
+      Taro.showModal({
+        title: '提示',
+        content: '注册失败',
+        showCancel: false,
+        confirmText: '重试'
+      })
     })
   }
 
